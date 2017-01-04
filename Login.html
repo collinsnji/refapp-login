@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<!-- saved from url=(0041)http://demo.openmrs.org/openmrs/login.htm -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Login</title>
+    <link rel="shortcut icon" type="image/ico" href="http://demo.openmrs.org/openmrs/images/openmrs-favicon.ico">
+    <link rel="icon" type="image/png\" href="http://demo.openmrs.org/openmrs/images/openmrs-favicon.png">
+    <script type="text/javascript" src="./Login_files/jquery-1.8.3.min.js"></script>
+<script type="text/javascript" src="./Login_files/jquery-ui-1.9.2.custom.min.js"></script>
+<script type="text/javascript" src="./Login_files/underscore-min.js"></script>
+<script type="text/javascript" src="./Login_files/knockout-2.1.0.js"></script>
+<script type="text/javascript" src="./Login_files/emr.js"></script>
+<script type="text/javascript" src="./Login_files/jquery.toastmessage.js"></script>
+<script type="text/javascript" src="./Login_files/jquery.simplemodal.1.4.4.min.js"></script>
+<link rel="stylesheet" href="./Login_files/jquery-ui-1.9.2.custom.min.css" type="text/css">
+<link rel="stylesheet" href="./Login_files/jquery.toastmessage.css" type="text/css">
+<link rel="stylesheet" href="./Login_files/login.css" type="text/css">
+<link rel="stylesheet" href="./Login_files/referenceapplication.css" type="text/css">
+
+</head>
+<body>
+<script type="text/javascript">
+    var OPENMRS_CONTEXT_PATH = 'openmrs';
+</script>
+
+<script type="text/javascript">
+    $(function() {
+    	updateSelectedOption = function() {
+	        $('#sessionLocation button').removeClass('selected');
+	        
+			var sessionLocationVal = $('#sessionLocationInput').val();
+	        if(sessionLocationVal != null && sessionLocationVal != "" && sessionLocationVal != 0){
+	            $('#sessionLocation button[value|=' + sessionLocationVal + ']').addClass('selected');
+	        }
+    	};
+    
+        updateSelectedOption();
+
+        $('#sessionLocation button').click( function() {
+            $('#sessionLocationInput').val($(this).attr("value"));
+            updateSelectedOption();
+        });
+		$('#sessionLocation button').focus( function() {
+            $('#sessionLocationInput').val($(this).attr("value"));
+            updateSelectedOption();
+        });
+		$('#sessionLocation').keyup(function (e) {
+    		var key = e.which || e.keyCode;
+    		if (key === 13 || updateSelectedOption()) {
+      			$('#login-form').submit();
+				console.log("Submitted");
+    		}
+		});
+        $('#loginButton').click(function(e) {
+        	var sessionLocationVal = $('#sessionLocationInput').val();
+        	
+        	if (!sessionLocationVal) {
+       			$('#sessionLocationError').show(); 		
+        		e.preventDefault();
+        	}
+        });	
+        
+        var cannotLoginController = emr.setupConfirmationDialog({
+            selector: '#cannotLoginPopup',
+            actions: {
+                confirm: function() {
+                    cannotLoginController.close();
+                }
+            }
+        });
+        
+        jQuery('a#cantLogin').click(function() {
+            cannotLoginController.show();
+        });
+        
+        pageReady = false;
+    });
+	$('#sessionLocation button').click(function(e){
+		e.preventDefault();
+		e.stopPropagation();
+	})
+</script>
+
+<header>
+    <div class="logo">
+        <a href="http://demo.openmrs.org/openmrs/referenceapplication/home.page">
+            <img src="./Login_files/openMrsLogo.png">
+        </a>
+    </div>
+</header>
+
+<div id="body-wrapper">
+    <div id="content">
+        <form id="login-form" method="post" autocomplete="off">
+            <fieldset>
+
+                <legend>
+                    <i class="icon-lock small"></i>
+                    Login
+                </legend>
+
+                <p class="left">
+                    <label for="username">
+                        Username:
+                    </label>
+                    <input id="username" type="text" name="username" autofocus="true" placeholder="Enter your username">
+                </p>
+
+                <p class="left">
+                    <label for="password">
+                        Password:
+                    </label>
+                    <input id="password" type="password" name="password" placeholder="Enter your password">
+                </p>
+
+                <p class="clear">
+                    <label for="sessionLocation">
+                        Location for this session: <span class="location-error" id="sessionLocationError" style="display: none">You must choose a location!</span>
+                    </label>
+				</p>
+				<input type="hidden">
+				<ul id="sessionLocation" class="select">		
+                    <button id="Inpatient Ward" value="6" type="button">Inpatient Ward</button>
+                    <button id="Isolation Ward" value="4" type="button">Isolation Ward</button>                    
+                    <button id="Laboratory" value="3" type="button">Laboratory</button>                    
+                    <button id="Outpatient Clinic" value="7" type="button">Outpatient Clinic</button>
+                	<button id="Pharmacy" value="2" type="button">Pharmacy</button>
+                    <button id="Registration Desk" value="5" type="button">Registration Desk</button>
+                        
+                    </ul>
+				</input>
+                <p></p>
+
+                <input type="hidden" id="sessionLocationInput" name="sessionLocation">
+
+                <p></p>
+                <p>
+                    <input id="loginButton" class="confirm" type="submit" value="Log In">
+                </p>
+                <p>
+                    <a id="cantLogin" href="javascript:void(0)">
+                        <i class="icon-question-sign small"></i>
+                        Can't log in?
+                    </a>
+                </p>
+
+            </fieldset>
+
+    		<input type="hidden" name="redirectUrl" value="/openmrs/login.htm">
+
+        </form>
+
+    </div>
+</div>
+
+<div id="cannotLoginPopup" class="dialog" style="display: none">
+    <div class="dialog-header">
+        <i class="icon-info-sign"></i>
+        <h3>Can't log in?</h3>
+    </div>
+    <div class="dialog-content">
+        <p class="dialog-instructions">Please contact your System Administrator.</p>
+
+        <button class="confirm">Okay</button>
+    </div>
+</div>
+ </body></html>
