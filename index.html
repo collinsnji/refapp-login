@@ -23,38 +23,67 @@
 </script>
 
 <script type="text/javascript">
-    $(function() {
+    jQuery(function() {
     	updateSelectedOption = function() {
-	        $('#sessionLocation button').removeClass('selected');
+	        jQuery('#sessionLocation button').removeClass('selected');
 	        
-			var sessionLocationVal = $('#sessionLocationInput').val();
+			var sessionLocationVal = jQuery('#sessionLocationInput').val();
 	        if(sessionLocationVal != null && sessionLocationVal != "" && sessionLocationVal != 0){
-	            $('#sessionLocation button[value|=' + sessionLocationVal + ']').addClass('selected');
+	            jQuery('#sessionLocation button[value|=' + sessionLocationVal + ']').addClass('selected');
 	        }
     	};
     
         updateSelectedOption();
 
-        $('#sessionLocation button').click( function() {
-            $('#sessionLocationInput').val($(this).attr("value"));
+        jQuery('#sessionLocation button').click( function() {
+            jQuery('#sessionLocationInput').val(jQuery(this).attr("value"));
             updateSelectedOption();
         });
-		$('#sessionLocation button').focus( function() {
-            $('#sessionLocationInput').val($(this).attr("value"));
+		jQuery('#sessionLocation button').focus( function() {
+            jQuery('#sessionLocationInput').val(jQuery(this).attr("value"));
             updateSelectedOption();
         });
-		$('#sessionLocation').keyup(function (e) {
+		jQuery('#sessionLocation').keyup(function (e) {
     		var key = e.which || e.keyCode;
     		if (key === 13 || updateSelectedOption()) {
-      			$('#login-form').submit();
+      			jQuery('#login-form').submit();
 				console.log("Submitted");
     		}
 		});
-        $('#loginButton').click(function(e) {
-        	var sessionLocationVal = $('#sessionLocationInput').val();
+		var buttonValues = Array.from(jQuery('#sessionLocation button'));
+		for (var i = 0; i < buttonValues.length; i++){
+			buttonValues[i].addEventListener('keyup', function (event){
+				var keyCode = event.which || event.keyCode;
+				switch (keyCode) {
+					case 37: // move left
+						jQuery(this).prev('#sessionLocation button').focus();
+						break;
+					case 39: // move right
+						jQuery(this).next('#sessionLocation button').focus();
+						break;
+					case 38: // move up
+						switch (jQuery(this).attr("value")) {
+							case "7": jQuery('#sessionLocation button[id="Inpatient Ward"').focus(); break;
+							case "5": jQuery('#sessionLocation button[id="Laboratory"').focus(); break;
+							case "2": jQuery('#sessionLocation button[id="Isolation Ward"').focus(); break;
+							default: break;
+						} break;
+					case 40: //	move down
+						switch (jQuery(this).attr("value")) {
+							case "6": jQuery('#sessionLocation button[id="Outpatient Clinic"').focus(); break;
+							case "4": jQuery('#sessionLocation button[id="Pharmacy"').focus(); break;
+							case "3": jQuery('#sessionLocation button[id="Registration Desk"').focus(); break;
+							default: break;
+						} break;	
+					default: break;
+				}
+			});
+		}
+        jQuery('#loginButton').click(function(e) {
+        	var sessionLocationVal = jQuery('#sessionLocationInput').val();
         	
         	if (!sessionLocationVal) {
-       			$('#sessionLocationError').show(); 		
+       			jQuery('#sessionLocationError').show(); 		
         		e.preventDefault();
         	}
         });	
@@ -74,7 +103,7 @@
         
         pageReady = false;
     });
-	$('#sessionLocation button').click(function(e){
+	jQuery('#sessionLocation button').click(function(e){
 		e.preventDefault();
 		e.stopPropagation();
 	})
@@ -90,7 +119,7 @@
 
 <div id="body-wrapper">
     <div id="content">
-        <form id="login-form" action="submit.php" method="post" autocomplete="off">
+        <form id="login-form" method="post" autocomplete="off">
             <fieldset>
 
                 <legend>
