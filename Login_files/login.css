@@ -1,0 +1,15 @@
+#login-form ul.select {
+  width: 850px;
+}
+#login-form p input[type=text], #login-form p input[type=password] {
+  width: 405px;
+}
+
+.location-error {
+  color: #ff6666;
+  font-size: 1.1em;
+  font-style: italic;
+}
+#login-form ul li a:focus > #login-form ul li {
+	background-color: #47a3da;
+}
