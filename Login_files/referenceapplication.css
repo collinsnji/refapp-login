@@ -635,10 +635,11 @@ ul.select button {
   width: 250px;
   padding: 5px;
   color: #007fff;
-  background-color: #FFF;
+  border: none;
   border-bottom: 1px solid #efefef;
 }
-ul.select button:hover {
+ul.select button:hover,
+ul.select button:focus {
   background-color: #007fff;
   color: white;
   cursor: pointer;
@@ -1229,7 +1230,7 @@ header #session-location li {
   margin-bottom: .5em;
 }
 
-.button, button, input[type="submit"], input[type="button"], input[type="submit"], a.button {
+.button, input[type="submit"], input[type="button"], input[type="submit"], a.button {
   -moz-border-radius: 3px;
   -webkit-border-radius: 3px;
   -o-border-radius: 3px;
@@ -4869,4 +4870,5 @@ ul.icons li [class*=" icon-"] {
 
 .icon-tomo:before {
   content: "\e00e";
+}
 }
