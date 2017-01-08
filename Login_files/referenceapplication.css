@@ -628,7 +628,7 @@ ul.select {
   padding: 0;
   font-size: 0.8em;
 }
-ul.select button {
+ul.select li {
   margin: 0 10px;
   text-align: left;
   display: inline-block;
@@ -638,13 +638,13 @@ ul.select button {
   border: none;
   border-bottom: 1px solid #efefef;
 }
-ul.select button:hover,
-ul.select button:focus {
+ul.select li:hover,
+ul.select li:focus {
   background-color: #007fff;
   color: white;
   cursor: pointer;
 }
-ul.select button.selected {
+ul.select li.selected {
   background-color: #007fff;
   color: white;
   border-color: transparent;
@@ -4871,4 +4871,5 @@ ul.icons li [class*=" icon-"] {
 .icon-tomo:before {
   content: "\e00e";
 }
+
 }
