@@ -25,21 +25,21 @@
 <script type="text/javascript">
     jQuery(function() {
     	updateSelectedOption = function() {
-	        jQuery('#sessionLocation button').removeClass('selected');
+	        jQuery('#sessionLocation li').removeClass('selected');
 	        
 			var sessionLocationVal = jQuery('#sessionLocationInput').val();
 	        if(sessionLocationVal != null && sessionLocationVal != "" && sessionLocationVal != 0){
-	            jQuery('#sessionLocation button[value|=' + sessionLocationVal + ']').addClass('selected');
+	            jQuery('#sessionLocation li[value|=' + sessionLocationVal + ']').addClass('selected');
 	        }
     	};
     
         updateSelectedOption();
 
-        jQuery('#sessionLocation button').click( function() {
+        jQuery('#sessionLocation li').click( function() {
             jQuery('#sessionLocationInput').val(jQuery(this).attr("value"));
             updateSelectedOption();
         });
-		jQuery('#sessionLocation button').focus( function() {
+		jQuery('#sessionLocation li').focus( function() {
             jQuery('#sessionLocationInput').val(jQuery(this).attr("value"));
             updateSelectedOption();
         });
@@ -50,31 +50,24 @@
 				console.log("Submitted");
     		}
 		});
-		var buttonValues = Array.from(jQuery('#sessionLocation button'));
-		for (var i = 0; i < buttonValues.length; i++){
+		var buttonValues = Array.from(jQuery('#sessionLocation li'));
+		for (var i in buttonValues){
+			buttonValues[i].setAttribute('data-temp', i);
 			buttonValues[i].addEventListener('keyup', function (event){
 				var keyCode = event.which || event.keyCode;
 				switch (keyCode) {
 					case 37: // move left
-						jQuery(this).prev('#sessionLocation button').focus();
+						jQuery(this).prev('#sessionLocation li').focus();
 						break;
 					case 39: // move right
-						jQuery(this).next('#sessionLocation button').focus();
+						jQuery(this).next('#sessionLocation li').focus();
 						break;
 					case 38: // move up
-						switch (jQuery(this).attr("value")) {
-							case "7": jQuery('#sessionLocation button[id="Inpatient Ward"').focus(); break;
-							case "5": jQuery('#sessionLocation button[id="Laboratory"').focus(); break;
-							case "2": jQuery('#sessionLocation button[id="Isolation Ward"').focus(); break;
-							default: break;
-						} break;
+						jQuery('#sessionLocation li[data-temp=' +(Number(jQuery(document.activeElement).attr('data-temp')) - 3) + ']').focus(); 
+						break;
 					case 40: //	move down
-						switch (jQuery(this).attr("value")) {
-							case "6": jQuery('#sessionLocation button[id="Outpatient Clinic"').focus(); break;
-							case "4": jQuery('#sessionLocation button[id="Pharmacy"').focus(); break;
-							case "3": jQuery('#sessionLocation button[id="Registration Desk"').focus(); break;
-							default: break;
-						} break;	
+						jQuery('#sessionLocation li[data-temp=' +(Number(jQuery(document.activeElement).attr('data-temp')) + 3) + ']').focus(); 
+						break;
 					default: break;
 				}
 			});
@@ -97,16 +90,13 @@
             }
         });
         
+        jQuery('#username').focus();
         jQuery('a#cantLogin').click(function() {
             cannotLoginController.show();
         });
         
-        pageReady = false;
+        pageReady = true;
     });
-	jQuery('#sessionLocation button').click(function(e){
-		e.preventDefault();
-		e.stopPropagation();
-	})
 </script>
 
 <header>
@@ -131,7 +121,7 @@
                     <label for="username">
                         Username:
                     </label>
-                    <input id="username" type="text" name="username" autofocus="true" placeholder="Enter your username">
+                    <input id="username" type="text" name="username" placeholder="Enter your username">
                 </p>
 
                 <p class="left">
@@ -148,14 +138,17 @@
 				</p>
 				<input type="hidden">
 				<ul id="sessionLocation" class="select">		
-                    <button id="Inpatient Ward" value="6" type="button">Inpatient Ward</button>
-                    <button id="Isolation Ward" value="4" type="button">Isolation Ward</button>                    
-                    <button id="Laboratory" value="3" type="button">Laboratory</button>                    
-                    <button id="Outpatient Clinic" value="7" type="button">Outpatient Clinic</button>
-                	<button id="Pharmacy" value="2" type="button">Pharmacy</button>
-                    <button id="Registration Desk" value="5" type="button">Registration Desk</button>
-                        
-                    </ul>
+                    <li id="Inpatient Ward" value="6" tabindex="0">Inpatient Ward</li>
+                    <li id="Isolation Ward" value="4" tabindex="0">Isolation Ward</li>                    
+                    <li id="Laboratory" value="3" tabindex="0">Laboratory</li>                    
+                    <li id="Outpatient Clinic" value="7" tabindex="0">Outpatient Clinic</li>
+                	<li id="Pharmacy" value="2" tabindex="0">Pharmacy</li>
+                    <li id="Registration Desk" value="5" tabindex="0">Registration Desk</li>
+                    <li id="Location 01" value="8" tabindex="0">Location 01</li>
+					<li id="Location 02" value="9" tabindex="0">Location 02</li>
+					<li id="Location 03" value="10" tabindex="0">Location 03</li>
+					<li id="Location 04" value="11" tabindex="0">Location 04</li>    
+                 </ul>
 				</input>
                 <p></p>
 
